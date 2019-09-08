@@ -4,7 +4,7 @@ import pywaves as pw
 NODE = "https://testnode1.wavesnodes.com"
 CHAIN = 'testnet'
 pw.setNode(node=NODE, chain=CHAIN)
-DAPPADDRESS = "3MvsWmraQRD2kUduNUrBQ6hP4K5xpc4XGkY"
+DAPPADDRESS = "3N8BfhN3724vf6msq4iBVBGuBZywTp5Ea1Y"
 # ======================================================================
 PRICE = 100000000
 
@@ -41,6 +41,7 @@ def invoke_remote_script(funcName, args, price,privateKey):
     address = pw.Address(privateKey=privateKey)
     tx = address.invokeScript(DAPPADDRESS, funcName, args,
                               [{"amount": price, "assetId": None}])
+    print(tx)
     return tx
 
 

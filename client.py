@@ -4,7 +4,7 @@ import pywaves as pw
 NODE = "https://testnode1.wavesnodes.com"
 CHAIN = 'testnet'
 pw.setNode(node=NODE, chain=CHAIN)
-DAPPADDRESS = "3N18S8xfWJYHVuGfJcpcPVh7LsnqR9hKTcc"
+DAPPADDRESS = "3MvsWmraQRD2kUduNUrBQ6hP4K5xpc4XGkY"
 # ======================================================================
 PRICE = 100000000
 

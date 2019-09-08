@@ -6,7 +6,7 @@ CHAIN = 'testnet'
 pw.setNode(node=NODE, chain=CHAIN)
 DAPPADDRESS = "3N18S8xfWJYHVuGfJcpcPVh7LsnqR9hKTcc"
 # ======================================================================
-
+PRICE = 100000000
 
 
 MAX1_ADDRESS = "3Mpi62dU5eMt6Z52nr8oatJoYK1ztu5RfV2"
@@ -28,7 +28,7 @@ args = [
     {"type": "integer", "value": 4, },
     {"type": "integer", "value": 5, },
     {"type": "integer", "value": 6, },
-    {"type": "integer", "value": 17, },
+    {"type": "integer", "value": 10, },
     {"type": "integer", "value": 18, },
     {"type": "integer", "value": 19, },
     {"type": "integer", "value": 20, },
@@ -45,38 +45,52 @@ def invoke_remote_script(funcName, args, price,privateKey):
 
 
 def create_patent(privateKey, coords):
-    PRICE = 100000000
     FUNC = "patent"
     tx = invoke_remote_script(FUNC, coords, PRICE, privateKey)
-    print(tx)
+    print(FUNC,tx.get("id"))
+    return {"id": tx.get("id")}
 
 
 def buy_patent(privateKey, coords):
     FUNC = "buyPatent"
     PATENT_PRICE = 200000000
     tx = invoke_remote_script(FUNC, coords, PATENT_PRICE, privateKey)
-    print(tx)
+    print(FUNC,tx.get("id"))
+    return {"id": tx.get("id")}
 
 
 def withdraw(privateKey):
     FUNC = "withdraw"
     address = pw.Address(privateKey=privateKey)
     tx = address.invokeScript(DAPPADDRESS, FUNC, [], [])
-    print(tx)
+    print(FUNC, tx.get("id"))
+    return {"id": tx.get("id")}
 
 
 def send_game_report(privateKey, args):
     FUNC = "gameReport"
     address = pw.Address(privateKey=privateKey)
     tx = address.invokeScript(DAPPADDRESS, FUNC, args, [])
-    print(tx)
+    print(FUNC, tx.get("id"))
+    return {"id": tx.get("id")}
+
+
+def insure(privateKey):
+    FUNC = "insure"
+    INSURENCE_PRICE = int(PRICE * 0.07)
+    address = pw.Address(privateKey=privateKey)
+    tx = address.invokeScript(DAPPADDRESS, FUNC, [], [{"amount": INSURENCE_PRICE, "assetId": None}])
+    print(FUNC, tx.get("id"))
+    return {"id": tx.get("id")}
 
 if __name__ == '__main__':
     import time
     create_patent(MAX1_PRIVATEKEY, args)
-    # time.sleep(5)
-    # buy_patent(MAX2_PRIVATEKEY, args)
-    # time.sleep(5)
-    # withdraw(MAX1_PRIVATEKEY)
-    # time.sleep(5)
-    # send_game_report(ORACLE_PRIVATE_KEY,args2)
+    time.sleep(5)
+    buy_patent(MAX2_PRIVATEKEY, args)
+    time.sleep(5)
+    withdraw(MAX1_PRIVATEKEY)
+    time.sleep(5)
+    send_game_report(ORACLE_PRIVATE_KEY,args2)
+    time.sleep(5)
+    insure(MAX1_PRIVATEKEY)
